@@ -16,95 +16,70 @@ using namespace std;
 void residual_width_macro() {
 
     TChain *Tree = new TChain("Tree");
-	// Tree->Add("CascadeResultsMC.root/DF_2247591000000000/CascCand");
-	// Tree->Add("CascadeResultsMC.root/DF_2247591100000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231109_ConstMeth2_wPreMin.root/DF_2267833000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231213_wPreMin.root/DF_2269370000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231218_wPreMin.root/DF_2269370000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240111_wPreMin.root/DF_2269370000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240119_wPreMin.root/DF_2267154000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240124_wPreMin.root/DF_2267154000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240125_wPreMin.root/DF_2267154000000000/CascCand");
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240213_wPreMin.root/DF_2267154000000000/CascCand");      // without distortions Proton/Pion  LHC23f4b & LHC23f4b2 Propagation fix
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240213_sinj.root/DF_2261165000000000/CascCand");   		// strange injected LHC23e1d  Propagation fix
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240215_wPreMin.root/DF_2267154000000000/CascCand");      // without distortions Proton/Pion  LHC23f4b & LHC23f4b2  Error fix
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240215_sinj.root/DF_2261165000000000/CascCand");   		// strange injected LHC23e1d  Error fix
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240321_wPreMin.root/DF_2267154000000000/CascCand");      // without distortions Proton/Pion  LHC23f4b & LHC23f4b2  IU
 	
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_SI_wPreMin.root/DF_2262958443066025/O2casccandmc");      // SI pass4
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_SI_wPreMin.root/DF_2262958443066025/O2casccandmc");      // SI pass4 Thesis
 
-	Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2266609207539576/O2casccandmc");      // GP pass4
-	Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2270036700097545/O2casccandmc");      // GP pass4
-	Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2248591508396059/O2casccandmc");      // GP pass4
-	Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2266991212314497/O2casccandmc");      // GP pass4
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2266609207539576/O2casccandmc");      // GP pass4 Thesis
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2270036700097545/O2casccandmc");      // GP pass4 Thesis
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2248591508396059/O2casccandmc");      // GP pass4 Thesis
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_wPreMin.root/DF_2266991212314497/O2casccandmc");      // GP pass4 Thesis
 
-	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass6_wPreMin.root/DF_2267098586191173/O2casccandmc");      // GP pass6
+	// Tree->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass6_wPreMin.root/DF_2267098586191173/O2casccandmc");      // GP pass6 Thesis
 
+	// Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC24f3c.root/DF_2268997031547896/O2casccandmc");   // GP pass7 LHC22o
+	// Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC24f3c.root/DF_2263915935866616/O2casccandmc");   // GP pass7 LHC22o
+	// Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC24f3c.root/DF_2270023726731767/O2casccandmc");   // GP pass7 LHC22o
 
-	
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2300062542593111/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2302210303516824/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2301956622048672/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2303691697534469/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2305963988611719/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2308394932611766/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2309232433186413/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2309949911070962/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2310769750710395/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2303129917305244/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2309112152576853/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2316142901210718/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2317207916632068/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2317723398525881/O2casccandmc");   // GP pass4 LHC23f
+	Tree->Add("/lustre/alice/users/tweinrei/Hiwi-Trees/AO2D_LHC23k4g.root/DF_2318745949570471/O2casccandmc");   // GP pass4 LHC23f
+
 
 	TChain *Tree2 = new TChain("Tree2");
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231109_ConstMeth2_woPreMin.root/DF_2267833000000000/CascCand");
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231213_woPreMin.root/DF_2269370000000000/CascCand");
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231218_woPreMin.root/DF_2269370000000000/CascCand");
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240111_woPreMin.root/DF_2269370000000000/CascCand");
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240215_woPreMin.root/DF_2267154000000000/CascCand");     // without distortions Proton/Pion  LHC23f4b & LHC23f4b2  Error fix
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240321_woPreMin.root/DF_2267154000000000/CascCand");  // without distortions Proton/Pion  LHC23f4b & LHC23f4b2  IU
-	
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_SI_woPreMin.root/DF_2267004450442073/O2casccandmc");      // SI pass 4
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_SI_woPreMin.root/DF_2267004450442073/O2casccandmc");      // SI pass 4 Thesis
 
-	Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2246877970309364/O2casccandmc");      // GP pass 4
-	Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2247990969824158/O2casccandmc");      // GP pass 4
-	Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2269186390601077/O2casccandmc");      // GP pass 4
-	Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2266428812921873/O2casccandmc");      // GP pass 4
-	Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2268142256886309/O2casccandmc");      // GP pass 4
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2246877970309364/O2casccandmc");      // GP pass 4 Thesis
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2247990969824158/O2casccandmc");      // GP pass 4 Thesis
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2269186390601077/O2casccandmc");      // GP pass 4 Thesis
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2266428812921873/O2casccandmc");      // GP pass 4 Thesis
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass4_woPreMin.root/DF_2268142256886309/O2casccandmc");      // GP pass 4 Thesis
 
-	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass6_woPreMin.root/DF_2261906078559382/O2casccandmc");      // GP pass 6
-
-
-
-	TChain *Tree3 = new TChain("Tree3");
-	// Tree3->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20231109_ConstMeth2_wPreMin_noSel.root/DF_2267833000000000/CascCand");
-	// Tree3->Add("/lustre/alice/users/tweinrei/KFstudy/MC/CascadeTreeMC_merged_20240116_wPreMin_noSel.root/DF_2269370000000000/CascCand");
+	// Tree2->Add("/lustre/alice/users/tweinrei/KFstudy/MC/AO2D_GP_pass6_woPreMin.root/DF_2261906078559382/O2casccandmc");      // GP pass 6 Thesis
 
 	TCut isKF = "fIsKF == 1";
 	TCut isDCA = "fIsDCAFitter == 1";
 	TCut isKFDCA = "fIsKF == 1 && fIsDCAFitter == 1";
 	TCut isKFandTrueCasc = "fIsKF == 1 && fIsTrueCasc == 1";
+	TCut isTrueCasc = "fIsTrueCasc == 1";
 	TCut charge = "fCharge == -1";
 
-	// TCut V0woMaterialProton[3] = {"fV0RadKF > 4.5 && fV0RadKF < 10 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
-	// 							 "fV0RadKF > 10 && fV0RadKF < 15 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
-	// 							 "fV0RadKF > 15 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22"};
-	// TCut V0woMaterialPion[3] = {"fV0RadKF > 4.5 && fV0RadKF < 10 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22", 
-	// 							"fV0RadKF > 10 && fV0RadKF < 15 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22",
-	// 							"fV0RadKF > 15 && fV0RadKF < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22"};
+	TCut V0woMaterialProton[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
+								 "fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
+								 "fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22"};
+	TCut V0woMaterialPion[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22", 
+								"fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22",
+								"fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22"};
 
-	// // TCut V0wMaterialBoth = "fV0RadKF > 4.5 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22";
+	// TCut V0wMaterialBoth = "fV0Rad > 4.5 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22";
 
-	// TCut V0wMaterialProton[3] = {"fV0RadKF > 4.5 && fV0RadKF < 10 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
-	// 							 "fV0RadKF > 10 && fV0RadKF < 15 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
-	// 							 "fV0RadKF > 15 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22"};
-	// TCut V0wMaterialPion[3] = {"fV0RadKF > 4.5 && fV0RadKF < 10 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22", 
-	// 							"fV0RadKF > 10 && fV0RadKF < 15 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22",
-	// 							"fV0RadKF > 15 && fV0RadKF < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22"};
-
-
-	TCut V0woMaterialProton[3] = {"fV0RadKF > 4.2 && fV0RadKF < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
-								 "fV0RadKF > 9.2 && fV0RadKF < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
-								 "fV0RadKF > 14.2 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22"};
-	TCut V0woMaterialPion[3] = {"fV0RadKF > 4.2 && fV0RadKF < 9.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22", 
-								"fV0RadKF > 9.2 && fV0RadKF < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22",
-								"fV0RadKF > 14.2 && fV0RadKF < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22"};
-
-	// TCut V0wMaterialBoth = "fV0RadKF > 4.5 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22";
-
-	TCut V0wMaterialProton[3] = {"fV0RadKF > 4.2 && fV0RadKF < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
-								 "fV0RadKF > 9.2 && fV0RadKF < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
-								 "fV0RadKF > 14.2 && fV0RadKF < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22"};
-	TCut V0wMaterialPion[3] = {"fV0RadKF > 4.2 && fV0RadKF < 9.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22", 
-								"fV0RadKF > 9.2 && fV0RadKF < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22",
-								"fV0RadKF > 14.2 && fV0RadKF < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22"};
+	TCut V0wMaterialProton[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
+								 "fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
+								 "fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22"};
+	TCut V0wMaterialPion[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22", 
+								"fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22",
+								"fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22"};
 
 	TCut V0RadCutMC = "sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) > 4.5 && sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) < 19.2";
 
@@ -122,12 +97,9 @@ void residual_width_macro() {
 	gStyle->SetLegendBorderSize(0);
 
 	//const char *directory = "Tree_GP_pass4/ResiDaughtersThesis";
-	const char *directory = "Hiwi";
+	const char *directory = "Plots_LHC23k4g";
 
     // TFile *OutputFile = TFile::Open(Form("%s/resopull.root", directory), "RECREATE");
-
-	// TFile *OutputFile = TFile::Open("LHC23f4b_IU/ResoPullsVtxdaughters/resopull.root", "RECREATE");
-	// TFile *OutputFile = TFile::Open("Tree_StrangeInjec_PropagationFix/ResoPulls_Vtx_daughters/resopull.root", "RECREATE");
 
 	//-------------------------
   	// variables
@@ -168,28 +140,28 @@ void residual_width_macro() {
 	TH2F *hRecProton2D[6];
 	for (int i = 0; i < 6; i++){hRecProton2D[i] = new TH2F(Form("hRecProton2D[%i]", i), "", nbins2D, xlow2D, xup2D, nbins2D, ylow2D, yup2D);}
 	if (xresi){
-	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", xProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", xProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", xProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", xProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", xProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", xProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", xProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
 	}
 	if (yresi){
-	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", yProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", yProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", yProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", yProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", yProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", yProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", yProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
 	}
 	if (zresi){
-	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", zProtonresi, ptProtonMC), isKFandTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[2] && V0RadCutMC, "GOFF");
 	}
 
 	float xup2D2 = 1;
@@ -197,28 +169,28 @@ void residual_width_macro() {
 	TH2F *hRecPion2D[6];
 	for (int i = 0; i < 6; i++){hRecPion2D[i] = new TH2F(Form("hRecPion2D[%i]", i), "", nbins2D, xlow2D, xup2D2, nbins2D, ylow2D, yup2D);}
 	if(xresi){
-	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", xPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", xPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", xPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", xPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", xPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", xPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
+	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", xPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", xPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", xPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", xPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", xPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", xPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
 	}
 	if(yresi){
-	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", yPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", yPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", yPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", yPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", yPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", yPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
+	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", yPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", yPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", yPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", yPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", yPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", yPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
 	}
 	if(zresi){
-	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", zPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", zPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", zPionresi, ptPionMC), isKFandTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", zPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", zPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", zPionresi, ptPionMC), isKFandTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
+	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[0] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[1] && V0RadCutMC, "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[2] && V0RadCutMC, "GOFF");		
 	}
 
 
@@ -226,7 +198,7 @@ void residual_width_macro() {
   	// Mean and Sigmas from TH2 
   	//-------------------------
 
-	int nranges = 5;
+	int nranges = 10;
 	TH1D *hProton[nranges];
 	TH1D *hPion[nranges];
 
