@@ -116,9 +116,9 @@ void residual_width_macro() {
 	const char *ptProtonMC = "sqrt(pow(fPxProtonMC,2) + pow(fPyProtonMC,2))";
 	const char *ptPionMC = "sqrt(pow(fPxPionMC,2) + pow(fPyPionMC,2))";
 
-	bool xresi = false;
+	bool xresi = true;
 	bool yresi = false;
-	bool zresi = true;
+	bool zresi = false;
 
 	//-------------------------
   	// differential proton and pion residuals 
