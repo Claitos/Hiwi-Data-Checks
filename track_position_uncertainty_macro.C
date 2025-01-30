@@ -125,9 +125,9 @@ void track_position_uncertainty_macro() {
 
 	bool xresi = false;
 	bool yresi = false;
-	bool zresi = false;
+	bool zresi = true;
 
-	bool xyresi = true;
+	bool xyresi = false;
 
 	//-------------------------
   	// differential proton and pion residuals 
@@ -427,8 +427,8 @@ void track_position_uncertainty_macro() {
 	int mtomum = 1000000;
 
 	for (int i = 0; i < 3; i++){
-		hProtonRPHI[i] = new TH1F(Form("hProtonRPHI[%i]", i), "", 38, xlow2D, xup2D);
-		hPionRPHI[i] = new TH1F(Form("hProtonRPHI[%i]", i), "", 45, xlow2D, xup2D2);
+		hProtonRPHI[i] = new TH1F(Form("hProtonRPHI[%i]", i), "", 40, xlow2D, xup2D);
+		hPionRPHI[i] = new TH1F(Form("hProtonRPHI[%i]", i), "", 50, xlow2D, xup2D2);
 		hProtonRPHI[i]->SetMarkerColor(kRed); 
 		hProtonRPHI[i]->SetLineColor(kRed);
 		hProtonRPHI[i]->SetMarkerStyle(20);
@@ -442,29 +442,29 @@ void track_position_uncertainty_macro() {
 
 	for (int j=0; j < 39; j++){
 		if (xyresi){
-			hProtonRPHI[0]->SetBinContent(j+1, proton_rphi_0125[j]*mtomum);
-			hProtonRPHI[1]->SetBinContent(j+1, proton_rphi_0075[j]*mtomum);
-			hProtonRPHI[2]->SetBinContent(j+1, proton_rphi_0025[j]*mtomum);
+			hProtonRPHI[0]->SetBinContent(j+2, proton_rphi_0125[j]*mtomum);
+			hProtonRPHI[1]->SetBinContent(j+2, proton_rphi_0075[j]*mtomum);
+			hProtonRPHI[2]->SetBinContent(j+2, proton_rphi_0025[j]*mtomum);
 		}
 
 		if (zresi){
-			hProtonRPHI[0]->SetBinContent(j+1, proton_z_0125[j]*mtomum);
-			hProtonRPHI[1]->SetBinContent(j+1, proton_z_0075[j]*mtomum);
-			hProtonRPHI[2]->SetBinContent(j+1, proton_z_0025[j]*mtomum);
+			hProtonRPHI[0]->SetBinContent(j+2, proton_z_0125[j]*mtomum);
+			hProtonRPHI[1]->SetBinContent(j+2, proton_z_0075[j]*mtomum);
+			hProtonRPHI[2]->SetBinContent(j+2, proton_z_0025[j]*mtomum);
 		}
 	}
 
 	for (int j=0; j < 45; j++){
 		if (xyresi){
-			hPionRPHI[0]->SetBinContent(j+1, pion_rphi_0125[j]*mtomum);
-			hPionRPHI[1]->SetBinContent(j+1, pion_rphi_0075[j]*mtomum);
-			hPionRPHI[2]->SetBinContent(j+1, pion_rphi_0025[j]*mtomum);
+			hPionRPHI[0]->SetBinContent(j+6, pion_rphi_0125[j]*mtomum);
+			hPionRPHI[1]->SetBinContent(j+6, pion_rphi_0075[j]*mtomum);
+			hPionRPHI[2]->SetBinContent(j+6, pion_rphi_0025[j]*mtomum);
 		}
 
 		if (zresi){
-			hPionRPHI[0]->SetBinContent(j+1, pion_z_0125[j]*mtomum);
-			hPionRPHI[1]->SetBinContent(j+1, pion_z_0075[j]*mtomum);
-			hPionRPHI[2]->SetBinContent(j+1, pion_z_0025[j]*mtomum);
+			hPionRPHI[0]->SetBinContent(j+6, pion_z_0125[j]*mtomum);
+			hPionRPHI[1]->SetBinContent(j+6, pion_z_0075[j]*mtomum);
+			hPionRPHI[2]->SetBinContent(j+6, pion_z_0025[j]*mtomum);
 		}
 	}
 
@@ -507,7 +507,7 @@ void track_position_uncertainty_macro() {
 	TLatex latexT4;
   	latexT4.SetTextSize(0.035);
 	latexT4.SetTextFont(text_font);
-	latexT4.DrawLatexNDC(0.40, 0.84, "extrapolation distance = 2.5 cm");
+	latexT4.DrawLatexNDC(0.40, 0.84, "extrapolation distance = 12.5 cm");
 	latexT4.DrawLatexNDC(0.40, 0.80, "Pions with 4 hits");
   	latexT4.DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
 	latexT4.DrawLatexNDC(0.60, 0.72, "Pions");
@@ -518,7 +518,7 @@ void track_position_uncertainty_macro() {
 	TLatex latexT5;
   	latexT5.SetTextSize(0.035);
 	latexT5.SetTextFont(text_font);
-	latexT5.DrawLatexNDC(0.40, 0.84, "extrapolation distance = 2.5 cm");
+	latexT5.DrawLatexNDC(0.40, 0.84, "extrapolation distance = 7.5 cm");
 	latexT5.DrawLatexNDC(0.40, 0.80, "Pions with 4 hits");
   	latexT5.DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
 	latexT5.DrawLatexNDC(0.60, 0.72, "Pions");
