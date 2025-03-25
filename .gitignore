@@ -40,3 +40,8 @@ Plots_LHC23k4g/ZProtonMu.pdf
 Plots_LHC23k4g/ZProtonSigma.pdf
 Plots_LHC23k4g/XPionSigma.pdf
 Plots_LHC23k4g/XProtonSigma.pdf
+Plots_LHC23k4g/Eta.pdf
+Data/pion_rphi_4hits.txt
+Data/pion_z_4hits.txt
+Data/proton_rphi_4hits.txt
+Data/proton_z_4hits.txt
