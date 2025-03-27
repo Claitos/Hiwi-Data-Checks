@@ -161,9 +161,9 @@ void track_position_uncertainty_7hits_macro() {
 
 	bool xresi = false;
 	bool yresi = false;
-	bool zresi = false;
+	bool zresi = true;
 
-	bool xyresi = true;
+	bool xyresi = false;
 
 	//-------------------------
   	// differential proton and pion residuals 

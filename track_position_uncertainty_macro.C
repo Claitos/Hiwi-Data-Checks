@@ -181,7 +181,7 @@ void track_position_uncertainty_macro() {
 
 	bool xyresi = false;
 
-	int pseudorapidity_iter = 5;
+	int pseudorapidity_iter = 5; // 0 = 0 < eta < 2, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
 
 	//-------------------------
   	// differential proton and pion residuals 
