@@ -65,6 +65,22 @@ void simple_plotting_macro() {
 	TCut isKFDCA = "fIsKF == 1 && fIsDCAFitter == 1";
 	TCut isKFandTrueCasc = "fIsKF == 1 && fIsTrueCasc == 1";
 
+	const char *eta_norm_proton = "sqrt(pow(fEtaProton,2))";
+	TCut EtaProton[6] = {Form("0 < %s < 2", eta_norm_proton),
+						 Form("%s > 0.0 && %s < 0.2", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.2 && %s < 0.4", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.4 && %s < 0.6", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.6 && %s < 0.8", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.8 && %s < 1.0", eta_norm_proton, eta_norm_proton)};
+
+	const char *eta_norm_pion = "sqrt(pow(fEtaPion,2))";
+	TCut EtaPion[6] = {Form("0 < %s < 2", eta_norm_pion),
+					   Form("%s > 0.0 && %s < 0.2", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.2 && %s < 0.4", eta_norm_pion, eta_norm_pion),
+		 			   Form("%s > 0.4 && %s < 0.6", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.6 && %s < 0.8", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.8 && %s < 1.0", eta_norm_pion, eta_norm_pion)};
+
 	TCut V0woMaterialProton[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
 		"fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22",
 		"fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 22"};
@@ -107,8 +123,8 @@ void simple_plotting_macro() {
   	//-------------------------
 
 	int nbins = 500;
-	float xlow = 0;
-	float xup = 5;
+	float xlow = -2;
+	float xup = 2;
 	int sweep_range = 0;
 	const char *htitle = "Decay radii of #Lambda daughters";
 	const char *xlabel = "r_{vertex} [cm]";
@@ -118,8 +134,8 @@ void simple_plotting_macro() {
 	float ylabel_offset = 1.5;
 	float xlabel_offset = 1.2;
 
-	int sweep_index = 2;
-	bool plot_with_Lambda = true;
+	int sweep_index = 3;
+	bool plot_with_Lambda = false;
 
 
     TH1F *hProton = new TH1F("hProton", htitle, nbins, xlow, xup);
@@ -171,8 +187,8 @@ void simple_plotting_macro() {
 	const char *IUProton = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2))";
 	const char *IUPion = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2))";
 
-	Tree->Draw(Form("%s>>hProton", IUProton), isTrueCasc && IUProton_layers, "P E");
-	Tree->Draw(Form("%s>>hPion", IUPion), isTrueCasc && IUPion_layers, "P E SAMES");
+	Tree->Draw(Form("%s>>hProton", "fEtaProton"), isTrueCasc && EtaProton[sweep_index], "P E");
+	Tree->Draw(Form("%s>>hPion", "fEtaPion"), isTrueCasc && EtaPion[sweep_index], "P E SAMES");
 	if (plot_with_Lambda) {Tree->Draw(Form("%s>>hLambda", "fV0Rad"), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");}	
 
 	hProton->Scale(1/hProton->GetEntries());
@@ -205,7 +221,7 @@ void simple_plotting_macro() {
 
 	const char *format = "png";
 
-	canvas->SaveAs(Form("%s/IU.%s", directory, format));
+	canvas->SaveAs(Form("%s/Eta2.%s", directory, format));
 
 
 

@@ -118,19 +118,19 @@ void track_position_uncertainty_macro() {
 
 	const char *eta_norm_proton = "sqrt(pow(fEtaProton,2))";
 	TCut EtaProton[6] = {Form("0 < %s < 2", eta_norm_proton),
-						 Form("0 < %s < 0.2", eta_norm_proton),
-						 Form("0.2 < %s < 0.4", eta_norm_proton),
-						 Form("0.4 < %s < 0.6", eta_norm_proton),
-						 Form("0.6 < %s < 0.8", eta_norm_proton),
-						 Form("0.8 < %s < 1.0", eta_norm_proton)};
+						 Form("%s > 0.0 && %s < 0.2", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.2 && %s < 0.4", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.4 && %s < 0.6", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.6 && %s < 0.8", eta_norm_proton, eta_norm_proton),
+						 Form("%s > 0.8 && %s < 1.0", eta_norm_proton, eta_norm_proton)};
 
 	const char *eta_norm_pion = "sqrt(pow(fEtaPion,2))";
 	TCut EtaPion[6] = {Form("0 < %s < 2", eta_norm_pion),
-					   Form("0 < %s < 0.2", eta_norm_pion),
-					   Form("0.2 < %s < 0.4", eta_norm_pion),
-					   Form("0.4 < %s < 0.6", eta_norm_pion),
-					   Form("0.6 < %s < 0.8", eta_norm_pion),
-					   Form("0.8 < %s < 1.0", eta_norm_pion)};
+					   Form("%s > 0.0 && %s < 0.2", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.2 && %s < 0.4", eta_norm_pion, eta_norm_pion),
+		 			   Form("%s > 0.4 && %s < 0.6", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.6 && %s < 0.8", eta_norm_pion, eta_norm_pion),
+					   Form("%s > 0.8 && %s < 1.0", eta_norm_pion, eta_norm_pion)};
 	
 
 	//-------------------------
