@@ -13,30 +13,6 @@
 #include <TStopwatch.h>
 using namespace std;
 
-vector<vector<vector<float>>> read_in_3Ddata(const char *filename, int dimensions[3]) {
-	// Open the file
-	ifstream file(filename);
-
-	// Skip the first line
-	string dummyLine;
-	getline(file, dummyLine);
-
-	// 3D array to store values
-	vector<vector<vector<float>>> data(dimensions[0], vector<vector<float>>(dimensions[1],  vector<float>(dimensions[2])));
-
-	// Read values from the file into the array
-	for (int i = 0; i < dimensions[0]; i++) {
-		for (int j = 0; j < dimensions[1]; j++) {
-			for (int k = 0; k < dimensions[2]; k++) {
-				file >> data[i][j][k];
-			}
-		}
-	}
-
-	file.close(); // Close the file
-	return data;
-}
-
 
 void simple_plotting_macro() {
 
@@ -108,6 +84,9 @@ void simple_plotting_macro() {
 	TCut V0RadCutMC = "sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) > 4.5 && sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) < 19.2";
 	TCut charge = "fCharge == -1";
 
+	TCut IUProton_layers = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 2.9";
+	TCut IUPion_layers = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 2.9";
+
 	int text_font = 42;    // default Carolina 132
 	bool draw_statbox = false;
 
@@ -128,12 +107,12 @@ void simple_plotting_macro() {
   	// variables
   	//-------------------------
 
-	int nbins = 160;
-	float xlow = -2;
-	float xup = 2;
+	int nbins = 500;
+	float xlow = 0;
+	float xup = 5;
 	int sweep_range = 0;
-	const char *htitle = "Pseudorapidity of #Lambda daughters";
-	const char *xlabel = "#eta";
+	const char *htitle = "Decay radii of #Lambda daughters";
+	const char *xlabel = "r_{vertex} [cm]";
 	const char *ylabel = "Entries";
 
 	float labelsize = 0.03;
@@ -141,6 +120,7 @@ void simple_plotting_macro() {
 	float xlabel_offset = 1.2;
 
 	int sweep_index = 2;
+	bool plot_with_Lambda = true;
 
 
     TH1F *hProton = new TH1F("hProton", htitle, nbins, xlow, xup);
@@ -163,21 +143,15 @@ void simple_plotting_macro() {
 	hPion->SetMarkerStyle(20);
 	hPion->SetLineWidth(2);
 
-	//-------------------------
-  	// read in data
-  	//-------------------------
-
-	int dimensions[3] = {3, 3, 39}; // Dimensions of the 3D array
-	const char *filename = "Data/proton_rphi_4hits.txt"; // Name of the file to read from
-
-	auto proton_rphi_data = read_in_3Ddata(filename, dimensions);
-
-	// Example: Print a sample of the data
-	cout << "Sample data from (0,0) from function: ";
-	for (int k = 0; k < dimensions[2]; ++k) {
-		cout << proton_rphi_data[0][2][k] << " ";
-	}
-	cout << endl;
+	TH1F *hLambda = new TH1F("hLambda", htitle, nbins, xlow, xup);
+	hLambda->GetXaxis()->SetTitle(xlabel);
+	hLambda->GetYaxis()->SetTitle(ylabel);
+	hLambda->GetYaxis()->SetTitleOffset(ylabel_offset);
+	hLambda->GetXaxis()->SetTitleOffset(xlabel_offset);
+	hLambda->SetMarkerColor(7); 
+	hLambda->SetLineColor(7);
+	hLambda->SetMarkerStyle(20);
+	hLambda->SetLineWidth(2);
 
 	//-------------------------
   	// plotting
@@ -195,13 +169,18 @@ void simple_plotting_macro() {
 	const char *pPion = "sqrt(pow(fPxPionIURec,2) + pow(fPyPionIURec,2) + pow(fPzPionIURec,2))";
 	const char *etaCalcPion = Form("0.5*log((%s + fPzPionIURec)/(%s - fPzPionIURec))", pPion, pPion);
 
-	Tree->Draw(Form("%s>>hProton", "fEtaProton"), isTrueCasc && V0woMaterialProton[sweep_index], "P E");
-	Tree->Draw(Form("%s>>hPion", "fEtaPion"), isTrueCasc && V0woMaterialPion[sweep_index], "P E SAMES");	
+	const char *IUProton = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2))";
+	const char *IUPion = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2))";
+
+	Tree->Draw(Form("%s>>hProton", IUProton), isTrueCasc && IUProton_layers, "P E");
+	Tree->Draw(Form("%s>>hPion", IUPion), isTrueCasc && IUPion_layers, "P E SAMES");
+	if (plot_with_Lambda) {Tree->Draw(Form("%s>>hLambda", "fV0Rad"), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");}	
 
 	hProton->Scale(1/hProton->GetEntries());
 	hPion->Scale(1/hPion->GetEntries());
+	if (plot_with_Lambda) {hLambda->Scale(1/hLambda->GetEntries());}
 
-	hProton->GetYaxis()->SetRangeUser(0,0.02);
+	hProton->GetYaxis()->SetRangeUser(0,0.1);
 
 	const char *label_array[3] = {"4.2 < r_{#Lambda} < 9.2 cm", "9.2 < r_{#Lambda} < 14.2 cm", "14.2 < r_{#Lambda} < 19.2 cm"};
 	TLatex latexT0;
@@ -209,12 +188,15 @@ void simple_plotting_macro() {
 	latexT0.SetTextFont(text_font);
   	latexT0.DrawLatexNDC(0.60, 0.80, "pp #sqrt{s} = 13.6 TeV");
 	latexT0.DrawLatexNDC(0.60, 0.76, "#Lambda daughters");
-	latexT0.DrawLatexNDC(0.60, 0.72, label_array[sweep_index]);
-	latexT0.DrawLatexNDC(0.60, 0.68, Form("Total Entries: %.0f", hProton->GetEntries()));
+	latexT0.DrawLatexNDC(0.60, 0.72, "");
+	latexT0.DrawLatexNDC(0.40, 0.68, Form("Total Entries Proton: %.0f", hProton->GetEntries()));
+	latexT0.DrawLatexNDC(0.40, 0.64, Form("Total Entries Pion: %.0f", hPion->GetEntries()));
+	if (plot_with_Lambda) {latexT0.DrawLatexNDC(0.40, 0.60, Form("Total Entries Lambda: %.0f", hLambda->GetEntries()));}
 
 	TLegend *leg = new TLegend(0.15, 0.7, 0.4, 0.85, "", "brNDC");
 	leg->AddEntry(hProton, "Proton");
 	leg->AddEntry(hPion, "Pion");
+	if (plot_with_Lambda) {leg->AddEntry(hLambda, "Lambda");}
 	leg->Draw();
 
 
@@ -224,7 +206,7 @@ void simple_plotting_macro() {
 
 	const char *format = "pdf";
 
-	canvas->SaveAs(Form("%s/Eta.%s", directory, format));
+	canvas->SaveAs(Form("%s/IU.%s", directory, format));
 
 
 
