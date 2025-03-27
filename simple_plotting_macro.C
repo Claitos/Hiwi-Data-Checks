@@ -13,7 +13,6 @@
 #include <TStopwatch.h>
 using namespace std;
 
-
 void simple_plotting_macro() {
 
     TChain *Tree = new TChain("Tree");
@@ -204,7 +203,7 @@ void simple_plotting_macro() {
   	// I/O
   	//-------------------------
 
-	const char *format = "pdf";
+	const char *format = "png";
 
 	canvas->SaveAs(Form("%s/IU.%s", directory, format));
 

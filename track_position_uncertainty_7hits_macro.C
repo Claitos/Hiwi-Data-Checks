@@ -13,7 +13,7 @@
 #include <TStopwatch.h>
 using namespace std;
 
-vector<vector<vector<float>>> read_in_2Ddata(const char *filename, int dimensions[2]) {
+vector<vector<float>> read_in_2Ddata(const char *filename, int dimensions[2]) {
 	// Open the file
 	ifstream file(filename);
 
@@ -98,7 +98,7 @@ void track_position_uncertainty_7hits_macro() {
 	TCut IUProton_layers = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) < 2.9";
 	TCut IUPion_layers = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 2.9";
 
-	TCut V0RadCutMC = "sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) > 0 && sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) < 2.9";
+	TCut V0RadCutMC = "sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) > 0 && sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) < 2.5";
 
 	const char *eta_norm_proton = "sqrt(pow(fEtaProton,2))";
 	TCut EtaProton[6] = {Form("0 < %s < 2", eta_norm_proton),
@@ -172,7 +172,7 @@ void track_position_uncertainty_7hits_macro() {
 	int nbins2D = 100;
 	float ylow2D = 0;
 	float xlow2D = 0;
-	float yup2D = 2000;
+	float yup2D = 250;
 	float xup2D = 4;
 	float zup = 10000;
 	float labelsize = 0.03;
@@ -187,7 +187,7 @@ void track_position_uncertainty_7hits_macro() {
 	if (zresi){ylabel2D = "#sigma_{z}^{Rec} [#mum]";}
 	if (xyresi){ylabel2D = "#sigma_{xy}^{Rec} [#mum]";}
 
-	TH2F *hRecProton2D = new TH2F("hRecProton2D", "hRecProton2D", nbins2D, xlow2D, xup2D, nbins2D, ylow2D, yup2D);
+	TH2F *hRecProton2D = new TH2F("hRecProton2D", "", nbins2D, xlow2D, xup2D, nbins2D, ylow2D, yup2D);
 	if (xresi){Tree->Draw(Form("%s:%s>>hRecProton2D", xProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
 	if (yresi){Tree->Draw(Form("%s:%s>>hRecProton2D", yProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
 	if (zresi){Tree->Draw(Form("%s:%s>>hRecProton2D", zProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
@@ -196,10 +196,10 @@ void track_position_uncertainty_7hits_macro() {
 	float xup2D2 = 1;
 
 	TH2F *hRecPion2D = new TH2F("hRecPion2D", "", nbins2D, xlow2D, xup2D2, nbins2D, ylow2D, yup2D);
-	if(xresi){Tree->Draw(Form("%s:%s>>hRecPion2D[0]", xPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
-	if(yresi){Tree->Draw(Form("%s:%s>>hRecPion2D[0]", yPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
-	if(zresi){Tree->Draw(Form("%s:%s>>hRecPion2D[0]", zPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
-	if(xyresi){Tree->Draw(Form("%s:%s>>hRecPion2D[0]", xyPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
+	if(xresi){Tree->Draw(Form("%s:%s>>hRecPion2D", xPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
+	if(yresi){Tree->Draw(Form("%s:%s>>hRecPion2D", yPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
+	if(zresi){Tree->Draw(Form("%s:%s>>hRecPion2D", zPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
+	if(xyresi){Tree->Draw(Form("%s:%s>>hRecPion2D", xyPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
 
 
 	//-------------------------
@@ -220,7 +220,7 @@ void track_position_uncertainty_7hits_macro() {
 
 	canvas2D[0]->cd();
 	hRecProton2D->Draw("P COLZ");
-	hRecProton2D->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecProton2D->GetYaxis()->SetRangeUser(0, 0.025*resclaing_factor);
 	hRecProton2D->GetXaxis()->SetTitle(xlabel2D);
 	hRecProton2D->GetYaxis()->SetTitle(ylabel2D);
 	hRecProton2D->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
@@ -228,7 +228,7 @@ void track_position_uncertainty_7hits_macro() {
 
 	canvas2D[1]->cd();
 	hRecPion2D->Draw("P COLZ");
-	hRecPion2D->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecPion2D->GetYaxis()->SetRangeUser(0, 0.025*resclaing_factor);
 	hRecPion2D->GetXaxis()->SetTitle(xlabel2D);
 	hRecPion2D->GetYaxis()->SetTitle(ylabel2D);
 	hRecPion2D->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
@@ -251,10 +251,6 @@ void track_position_uncertainty_7hits_macro() {
 	auto proton_z_data = read_in_2Ddata(filename3, dimensions_proton);
 	auto pion_z_data = read_in_2Ddata(filename4, dimensions_pion);
 
-	// print data
-	for (int j = 0; j < 39; j++){cout << proton_rphi_data[0][j] << " ";} cout << endl;
-	for (int j = 0; j < 45; j++){cout << pion_rphi_data[0][j] << " ";} cout << endl;
-
 	int mtomum = 1000000;
 
 	float xlowAnalytic = 0.1;
@@ -274,13 +270,13 @@ void track_position_uncertainty_7hits_macro() {
 
 
 	for (int j=0; j < 39; j++){
-		if (xyresi){hProtonRPHI->SetBinContent(j+1, proton_rphi_data[0][0][j]*mtomum);}
-		if (zresi){hProtonRPHI->SetBinContent(j+1, proton_z_data[0][0][j]*mtomum);}
+		if (xyresi){hProtonRPHI->SetBinContent(j+1, proton_rphi_data[0][j]*mtomum);}
+		if (zresi){hProtonRPHI->SetBinContent(j+1, proton_z_data[0][j]*mtomum);}
 	}
 
 	for (int j=0; j < 45; j++){
-		if (xyresi){hPionRPHI->SetBinContent(j+1, pion_rphi_data[0][0][j]*mtomum);}
-		if (zresi){hPionRPHI->SetBinContent(j+1, pion_z_data[0][0][j]*mtomum);}
+		if (xyresi){hPionRPHI->SetBinContent(j+1, pion_rphi_data[0][j]*mtomum);}
+		if (zresi){hPionRPHI->SetBinContent(j+1, pion_z_data[0][j]*mtomum);}
 	}
 
 	
@@ -294,14 +290,14 @@ void track_position_uncertainty_7hits_macro() {
 	canvas2D[0]->cd();
 	hProtonRPHI->Draw("P SAMES");
 	latexT[0].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1cm");
-	latexT[0].DrawLatexNDC(0.40, 0.80, "Protons with 4 hits");
+	latexT[0].DrawLatexNDC(0.40, 0.80, "Protons with 7 hits");
 	latexT[0].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
 
 
 	canvas2D[1]->cd();
 	hPionRPHI->Draw("P SAMES");
 	latexT[1].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1cm");
-	latexT[1].DrawLatexNDC(0.40, 0.80, "Pions with 4 hits");
+	latexT[1].DrawLatexNDC(0.40, 0.80, "Pions with 7 hits");
 	latexT[1].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
 
 
@@ -309,7 +305,7 @@ void track_position_uncertainty_7hits_macro() {
   	// I/O
   	//-------------------------
 
-	const char *format = "pdf";
+	const char *format = "png";
 
 	if (xresi){}
 
@@ -321,8 +317,8 @@ void track_position_uncertainty_7hits_macro() {
 	}
 
 	if (xyresi){
-	canvas2D[i]->SaveAs(Form("%s/XYErrProton7.%s", directory, format));
-	canvas2D[i]->SaveAs(Form("%s/XYErrPion7.%s", directory, format));
+	canvas2D[0]->SaveAs(Form("%s/XYErrProton7.%s", directory, format));
+	canvas2D[1]->SaveAs(Form("%s/XYErrPion7.%s", directory, format));
 	}
 
 }

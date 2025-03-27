@@ -679,7 +679,7 @@ void track_position_uncertainty_macro() {
   	// I/O
   	//-------------------------
 
-	const char *format = "pdf";
+	const char *format = "png";
 
 	if (xresi){
 	// canvas1->SaveAs(Form("%s/XErrProton.%s", directory, format));
