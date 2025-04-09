@@ -123,8 +123,8 @@ void simple_plotting_macro() {
   	//-------------------------
 
 	int nbins = 500;
-	float xlow = -2;
-	float xup = 2;
+	float xlow = 0;
+	float xup = 5;
 	int sweep_range = 0;
 	const char *htitle = "Decay radii of #Lambda daughters";
 	const char *xlabel = "r_{vertex} [cm]";
@@ -135,7 +135,7 @@ void simple_plotting_macro() {
 	float xlabel_offset = 1.2;
 
 	int sweep_index = 3;
-	bool plot_with_Lambda = false;
+	bool plot_with_Lambda = true;
 
 
     TH1F *hProton = new TH1F("hProton", htitle, nbins, xlow, xup);
@@ -187,8 +187,8 @@ void simple_plotting_macro() {
 	const char *IUProton = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2))";
 	const char *IUPion = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2))";
 
-	Tree->Draw(Form("%s>>hProton", "fEtaProton"), isTrueCasc && EtaProton[sweep_index], "P E");
-	Tree->Draw(Form("%s>>hPion", "fEtaPion"), isTrueCasc && EtaPion[sweep_index], "P E SAMES");
+	Tree->Draw(Form("%s>>hProton", IUProton), isTrueCasc && IUProton_layers && IUPion_layers, "P E");
+	Tree->Draw(Form("%s>>hPion", IUPion), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");
 	if (plot_with_Lambda) {Tree->Draw(Form("%s>>hLambda", "fV0Rad"), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");}	
 
 	hProton->Scale(1/hProton->GetEntries());
@@ -221,7 +221,7 @@ void simple_plotting_macro() {
 
 	const char *format = "png";
 
-	canvas->SaveAs(Form("%s/Eta2.%s", directory, format));
+	canvas->SaveAs(Form("%s/IU.%s", directory, format));
 
 
 
