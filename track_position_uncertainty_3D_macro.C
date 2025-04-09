@@ -162,10 +162,10 @@ void track_position_uncertainty_3D_macro() {
 	const char *ptProtonMC = "sqrt(pow(fPxProtonMC,2) + pow(fPyProtonMC,2))";
 	const char *ptPionMC = "sqrt(pow(fPxPionMC,2) + pow(fPyPionMC,2))";
 
-	bool zresi = false;
-	bool xyresi = true;
+	bool zresi = true;
+	bool xyresi = false;
 
-	int pseudorapidity_iter = 0; // 0 = 0 < eta < 2, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
+	int pseudorapidity_iter = 0; // 0 = 0 < eta < 1, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
 
 	//-------------------------
   	// differential proton and pion residuals 
@@ -317,7 +317,7 @@ void track_position_uncertainty_3D_macro() {
 	}
 
 
-	const char *pseudorapidity_iter_str[6] = {"0 < |#eta| < 2", "0 < |#eta| < 0.2", "0.2 < |#eta| < 0.4",
+	const char *pseudorapidity_iter_str[6] = {"0 < |#eta| < 1", "0 < |#eta| < 0.2", "0.2 < |#eta| < 0.4",
 											  "0.4 < |#eta| < 0.6", "0.6 < |#eta| < 0.8", "0.8 < |#eta| < 1.0"};
 
 	const char *extrapolation_distances_str[3] = {"extrapolation distance = 12.5 cm", "extrapolation distance = 7.5 cm", "extrapolation distance = 2.5 cm"};
@@ -356,13 +356,13 @@ void track_position_uncertainty_3D_macro() {
 	const char *format = "png";
 
 	if (zresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/ZErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/ZErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/ZErrProtonTH2_%i.%s", directory, i, format));}
+	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/ZErrPionTH2_%i.%s", directory, i-3, format));}
 	}
 
 	if (xyresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/XYErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/XYErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/XYErrProtonTH2_%i.%s", directory, i, format));}
+	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/XYErrPionTH2_%i.%s", directory, i-3, format));}
 	}
 
 }

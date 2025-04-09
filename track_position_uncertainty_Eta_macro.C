@@ -37,7 +37,7 @@ vector<vector<vector<float>>> read_in_3Ddata(const char *filename, int dimension
 	return data;
 }
 
-void track_position_uncertainty_macro() {
+void track_position_uncertainty_Eta_macro() {
 
 	//-------------------------
 	// Load data	
@@ -105,6 +105,15 @@ void track_position_uncertainty_macro() {
 								"fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22",
 								"fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) < 22"};
 
+	// TCut V0wMaterialBoth = "fV0Rad > 4.5 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22";
+
+	TCut V0wMaterialProton[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
+								 "fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22",
+								 "fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2)) > 22"};
+	TCut V0wMaterialPion[3] = {"fV0Rad > 4.2 && fV0Rad < 9.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22", 
+								"fV0Rad > 9.2 && fV0Rad < 14.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22",
+								"fV0Rad > 14.2 && fV0Rad < 19.2 && sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2)) > 22"};
+
 	TCut V0RadCutMC = "sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) > 4.5 && sqrt(pow(fV0VtxXMC,2) + pow(fV0VtxYMC,2)) < 19.2";
 
 	const char *eta_norm_proton = "sqrt(pow(fEtaProton,2))";
@@ -161,10 +170,10 @@ void track_position_uncertainty_macro() {
 	const char *ptProtonMC = "sqrt(pow(fPxProtonMC,2) + pow(fPyProtonMC,2))";
 	const char *ptPionMC = "sqrt(pow(fPxPionMC,2) + pow(fPyPionMC,2))";
 
-	bool zresi = true;
-	bool xyresi = false;
+	bool zresi = false;
+	bool xyresi = true;
 
-	int pseudorapidity_iter = 0; // 0 = 0 < eta < 1, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
+	int pseudorapidity_iter = 0; // 0 = 0 < eta < 2, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
 
 	//-------------------------
   	// differential proton and pion residuals 
@@ -192,11 +201,17 @@ void track_position_uncertainty_macro() {
 	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[0] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[1] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", zProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[2] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[0] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[1] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", zProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[2] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	}
 	if (xyresi){
 	Tree->Draw(Form("%s:%s>>hRecProton2D[0]", xyProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[0] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecProton2D[1]", xyProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[1] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecProton2D[2]", xyProtonresi, ptProtonMC), isTrueCasc && V0woMaterialProton[2] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[3]", xyProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[0] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[4]", xyProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[1] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecProton2D[5]", xyProtonresi, ptProtonMC), isTrueCasc && V0wMaterialProton[2] && V0RadCutMC && EtaProton[pseudorapidity_iter], "GOFF");
 	}
 
 	float xup2D2 = 1;
@@ -206,12 +221,18 @@ void track_position_uncertainty_macro() {
 	if(zresi){
 	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[0] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[1] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");	
+	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", zPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[0] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[1] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", zPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");		
 	}
 	if(xyresi){
 	Tree->Draw(Form("%s:%s>>hRecPion2D[0]", xyPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[0] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
 	Tree->Draw(Form("%s:%s>>hRecPion2D[1]", xyPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[1] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
-	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", xyPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");		
+	Tree->Draw(Form("%s:%s>>hRecPion2D[2]", xyPionresi, ptPionMC), isTrueCasc && V0woMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[3]", xyPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[0] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[4]", xyPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[1] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");
+	Tree->Draw(Form("%s:%s>>hRecPion2D[5]", xyPionresi, ptPionMC), isTrueCasc && V0wMaterialPion[2] && V0RadCutMC && EtaPion[pseudorapidity_iter], "GOFF");		
 	}
 
 
@@ -225,6 +246,22 @@ void track_position_uncertainty_macro() {
 	float ylabel_offsetTH2 = 1.5;
 	float xlabel_offsetTH2 = 1.2;
 
+	const Int_t NRGBs = 5;
+	const Int_t NCont = 255; 
+	
+	Double_t stops[NRGBs] = {0.00, 0.34, 0.61, 0.84, 1.00};
+	Float_t alpha = 0.3; // Set transparency (0 = fully transparent, 1 = fully opaque)
+
+	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green[NRGBs] = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t blue[NRGBs]  = {0.20, 0.40, 0.60, 0.80, 1.00};
+	Int_t blue_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
+
+	Double_t red2[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green2[NRGBs] = {0.20, 0.40, 0.60, 0.80, 1.00};
+	Double_t blue2[NRGBs]  = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Int_t green_palette = TColor::CreateGradientColorTable(NRGBs, stops, red2, green2, blue2, NCont, alpha);
+
 	const char *extrapolation_radii_str[3] = {"4.2 < r_{#Lambda} < 9.2 cm", "9.2 < r_{#Lambda} < 14.2 cm", "14.2 < r_{#Lambda} < 19.2 cm"};
 
 	TCanvas *canvas2D[6];
@@ -234,7 +271,12 @@ void track_position_uncertainty_macro() {
 
 	for (int i = 0; i < 3; i++){
 		canvas2D[i]->cd();
+		gStyle->SetNumberContours(NCont);
+		TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
 		hRecProton2D[i]->Draw("P COLZ");
+		TColor::CreateGradientColorTable(NRGBs, stops, red2, green2, blue2, NCont, alpha);
+		hRecProton2D[0]->Draw("P COLZ SAMES");
+		canvas2D[i]->Update();
 		hRecProton2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
 		hRecProton2D[i]->GetXaxis()->SetTitle(xlabel2D);
 		hRecProton2D[i]->GetYaxis()->SetTitle(ylabel2D);
@@ -352,8 +394,8 @@ void track_position_uncertainty_macro() {
 	}
 
 	if (xyresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/XYErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/XYErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/XYErrProtonTH2_%i_eta%i_test.%s", directory, i, pseudorapidity_iter, format));}
+	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/XYErrPionTH2_%i_eta%i_test.%s", directory, i-3, pseudorapidity_iter, format));}
 	}
 
 }
