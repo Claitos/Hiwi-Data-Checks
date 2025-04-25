@@ -124,18 +124,18 @@ void simple_plotting_macro() {
 
 	int nbins = 500;
 	float xlow = 0;
-	float xup = 5;
+	float xup = 4;
 	int sweep_range = 0;
-	const char *htitle = "Decay radii of #Lambda daughters";
-	const char *xlabel = "r_{vertex} [cm]";
+	const char *htitle = "Transverse momentum of the Lambda daughters";
+	const char *xlabel = "p_{T} [GeV/c]";
 	const char *ylabel = "Entries";
 
 	float labelsize = 0.03;
 	float ylabel_offset = 1.5;
 	float xlabel_offset = 1.2;
 
-	int sweep_index = 3;
-	bool plot_with_Lambda = true;
+	int sweep_index = 0;
+	bool plot_with_Lambda = false;
 
 
     TH1F *hProton = new TH1F("hProton", htitle, nbins, xlow, xup);
@@ -187,8 +187,11 @@ void simple_plotting_macro() {
 	const char *IUProton = "sqrt(pow(fXProtonIURec,2) + pow(fYProtonIURec,2))";
 	const char *IUPion = "sqrt(pow(fXPionIURec,2) + pow(fYPionIURec,2))";
 
-	Tree->Draw(Form("%s>>hProton", IUProton), isTrueCasc && IUProton_layers && IUPion_layers, "P E");
-	Tree->Draw(Form("%s>>hPion", IUPion), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");
+	const char *ptProtonMC = "sqrt(pow(fPxProtonMC,2) + pow(fPyProtonMC,2))";
+	const char *ptPionMC = "sqrt(pow(fPxPionMC,2) + pow(fPyPionMC,2))";
+
+	Tree->Draw(Form("%s>>hProton", ptProtonMC), isTrueCasc && V0woMaterialProton[sweep_index] && V0RadCutMC, "P E");
+	Tree->Draw(Form("%s>>hPion", ptPionMC), isTrueCasc && V0woMaterialPion[sweep_index] && V0RadCutMC, "P E SAMES");
 	if (plot_with_Lambda) {Tree->Draw(Form("%s>>hLambda", "fV0Rad"), isTrueCasc && IUProton_layers && IUPion_layers, "P E SAMES");}	
 
 	hProton->Scale(1/hProton->GetEntries());
@@ -204,8 +207,8 @@ void simple_plotting_macro() {
   	latexT0.DrawLatexNDC(0.60, 0.80, "pp #sqrt{s} = 13.6 TeV");
 	latexT0.DrawLatexNDC(0.60, 0.76, "#Lambda daughters");
 	latexT0.DrawLatexNDC(0.60, 0.72, "");
-	latexT0.DrawLatexNDC(0.40, 0.68, Form("Total Entries Proton: %.0f", hProton->GetEntries()));
-	latexT0.DrawLatexNDC(0.40, 0.64, Form("Total Entries Pion: %.0f", hPion->GetEntries()));
+	latexT0.DrawLatexNDC(0.40, 0.68, Form("Mean Proton: %.3f", hProton->GetMean()));
+	latexT0.DrawLatexNDC(0.40, 0.64, Form("Mean Pion: %.3f", hPion->GetMean()));
 	if (plot_with_Lambda) {latexT0.DrawLatexNDC(0.40, 0.60, Form("Total Entries Lambda: %.0f", hLambda->GetEntries()));}
 
 	TLegend *leg = new TLegend(0.15, 0.7, 0.4, 0.85, "", "brNDC");
@@ -221,7 +224,7 @@ void simple_plotting_macro() {
 
 	const char *format = "png";
 
-	canvas->SaveAs(Form("%s/IU.%s", directory, format));
+	canvas->SaveAs(Form("%s/pT0.%s", directory, format));
 
 
 
