@@ -136,7 +136,7 @@ void track_position_uncertainty_Eta2_macro() {
 
 
 	float ptPionMeans[3] = {0.245, 0.272, 0.304};
-	float pTPionOffset = 0.05;
+	float pTPionOffset = 0.04;
 	TCut pTCutPion[3] = {Form("%s > %f - %f && %s < %f + %f", ptPionMC, ptPionMeans[0], pTPionOffset, ptPionMC, ptPionMeans[0], pTPionOffset),
 						 Form("%s > %f - %f && %s < %f + %f", ptPionMC, ptPionMeans[1], pTPionOffset, ptPionMC, ptPionMeans[1], pTPionOffset),
 						 Form("%s > %f - %f && %s < %f + %f", ptPionMC, ptPionMeans[2], pTPionOffset, ptPionMC, ptPionMeans[2], pTPionOffset)};
@@ -175,8 +175,8 @@ void track_position_uncertainty_Eta2_macro() {
 	const char *xyProtonresi = Form("sqrt(pow(fXProtonRecErr,2) + pow(fYProtonRecErr,2)) * %i", resclaing_factor);
 	const char *xyPionresi = Form("sqrt(pow(fXPionRecErr,2) + pow(fYPionRecErr,2)) * %i", resclaing_factor);
 
-	bool zresi = true;
-	bool xyresi = false;
+	bool zresi = false;
+	bool xyresi = true;
 
 	int pseudorapidity_iter = 0; // 0 = 0 < eta < 2, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
 
@@ -230,7 +230,7 @@ void track_position_uncertainty_Eta2_macro() {
 
 
 	//-------------------------
-  	// Print TH2s for consistency
+  	// Print TH2s 
   	//-------------------------
 
 	int canvasTH2sizeX = 1050;
@@ -249,6 +249,7 @@ void track_position_uncertainty_Eta2_macro() {
 
 	for (int i = 0; i < 3; i++){
 		canvas2D[i]->cd();
+		hRecProton2D[i]->SetMinimum(5);   // cuts away all bins with less than 5 entries
 		hRecProton2D[i]->Draw("P COLZ");
 		hRecProton2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
 		hRecProton2D[i]->GetXaxis()->SetTitle(xlabel2D);
@@ -260,6 +261,7 @@ void track_position_uncertainty_Eta2_macro() {
 
 	for (int i = 0; i < 3; i++){
 		canvas2D[i+3]->cd();
+		hRecPion2D[i]->SetMinimum(5);
 		hRecPion2D[i]->Draw("P COLZ");
 		hRecPion2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
 		hRecPion2D[i]->GetXaxis()->SetTitle(xlabel2D);

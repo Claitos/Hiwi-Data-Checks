@@ -37,6 +37,49 @@ vector<vector<vector<float>>> read_in_3Ddata(const char *filename, int dimension
 	return data;
 }
 
+
+void bluePal(){
+	const Int_t NRGBs = 5;
+	const Int_t NCont = 255; 
+
+	Int_t bluePalette[NCont];
+	
+	Double_t stops[NRGBs] = {0.00, 0.34, 0.61, 0.84, 1.00};
+	Float_t alpha = 0.3; // Set transparency (0 = fully transparent, 1 = fully opaque)
+
+	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green[NRGBs] = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t blue[NRGBs]  = {0.20, 0.40, 0.60, 0.80, 1.00};
+	Int_t blue_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
+
+	for (int i = 0; i < NCont; i++){
+		bluePalette[i] = blue_palette+i;
+	}
+	gStyle->SetPalette(NCont, bluePalette);
+}
+
+
+void greenPal(){
+	const Int_t NRGBs = 5;
+	const Int_t NCont = 255; 
+
+	Int_t greenPalette[NCont];
+	
+	Double_t stops[NRGBs] = {0.00, 0.34, 0.61, 0.84, 1.00};
+	Float_t alpha = 0.3; // Set transparency (0 = fully transparent, 1 = fully opaque)
+
+	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green[NRGBs] = {0.20, 0.40, 0.60, 0.80, 1.00};
+	Double_t blue[NRGBs]  = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Int_t green_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
+
+	for (int i = 0; i < NCont; i++){
+		greenPalette[i] = green_palette+i;
+	}
+	gStyle->SetPalette(NCont, greenPalette);
+}
+
+
 void track_position_uncertainty_Eta_macro() {
 
 	//-------------------------
@@ -225,21 +268,9 @@ void track_position_uncertainty_Eta_macro() {
 	float ylabel_offsetTH2 = 1.5;
 	float xlabel_offsetTH2 = 1.2;
 
-	const Int_t NRGBs = 5;
-	const Int_t NCont = 255; 
-	
-	Double_t stops[NRGBs] = {0.00, 0.34, 0.61, 0.84, 1.00};
-	Float_t alpha = 0.3; // Set transparency (0 = fully transparent, 1 = fully opaque)
 
-	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
-	Double_t green[NRGBs] = {0.00, 0.00, 0.00, 0.00, 0.00};
-	Double_t blue[NRGBs]  = {0.20, 0.40, 0.60, 0.80, 1.00};
-	Int_t blue_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
-
-	Double_t red2[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
-	Double_t green2[NRGBs] = {0.20, 0.40, 0.60, 0.80, 1.00};
-	Double_t blue2[NRGBs]  = {0.00, 0.00, 0.00, 0.00, 0.00};
-	Int_t green_palette = TColor::CreateGradientColorTable(NRGBs, stops, red2, green2, blue2, NCont, alpha);
+	TExec *execBlue = new TExec("execBlue", "bluePal();");
+	TExec *execGreen = new TExec("execGreen", "greenPal();");
 
 	const char *extrapolation_radii_str[3] = {"4.2 < r_{#Lambda} < 9.2 cm", "9.2 < r_{#Lambda} < 14.2 cm", "14.2 < r_{#Lambda} < 19.2 cm"};
 
@@ -248,14 +279,14 @@ void track_position_uncertainty_Eta_macro() {
 		canvas2D[i] = new TCanvas(Form("canvas2D[%i]", i), "", canvasTH2sizeX, canvasTH2sizeY);
 		canvas2D[i]->SetTicks();}
 
+		
 	for (int i = 0; i < 3; i++){
 		canvas2D[i]->cd();
-		gStyle->SetNumberContours(NCont);
-		TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
-		hRecProton2D[i]->Draw("P COLZ");
-		TColor::CreateGradientColorTable(NRGBs, stops, red2, green2, blue2, NCont, alpha);
-		hRecProton2D[0]->Draw("P COLZ SAMES");
-		canvas2D[i]->Update();
+		hRecProton2D[i]->Draw("AXIS");
+		execBlue->Draw();
+		hRecProton2D[i]->Draw("P COLZ SAME");
+		execGreen->Draw();
+		hRecProton2D[2]->Draw("P COLZ SAME");
 		hRecProton2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
 		hRecProton2D[i]->GetXaxis()->SetTitle(xlabel2D);
 		hRecProton2D[i]->GetYaxis()->SetTitle(ylabel2D);
@@ -368,8 +399,8 @@ void track_position_uncertainty_Eta_macro() {
 	const char *format = "png";
 
 	if (zresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/ZErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/ZErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/ZErrProtonTH2_%i_eta%i_test.%s", directory, i, pseudorapidity_iter, format));}
+	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/ZErrPionTH2_%i_eta%i_test.%s", directory, i-3, pseudorapidity_iter, format));}
 	}
 
 	if (xyresi){
