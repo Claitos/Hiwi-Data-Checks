@@ -272,3 +272,11 @@ Plots_LHC23k4g_Overlay/ZErrPion_Rad2.png
 Plots_LHC23k4g_Overlay/ZErrProton_Rad0.png
 Plots_LHC23k4g_Overlay/ZErrProton_Rad1.png
 Plots_LHC23k4g_Overlay/ZErrProton_Rad2.png
+Data/pion_rphi_4hits_1cm.txt
+Data/pion_z_4hits_1cm.txt
+Data/proton_rphi_4hits_1cm.txt
+Data/proton_z_4hits_1cm.txt
+Plots_LHC23k4g_7hits/XYErrPion7.png
+Plots_LHC23k4g_7hits/XYErrProton7.png
+Plots_LHC23k4g_7hits/ZErrPion7.png
+Plots_LHC23k4g_7hits/ZErrProton7.png
