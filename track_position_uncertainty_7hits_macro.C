@@ -182,22 +182,16 @@ void track_position_uncertainty_7hits_macro() {
 	const char *xlabel2D = "p_{T}^{MC} [GeV/c]";
 	const char *ylabel2D;
 
-	if (xresi){ylabel2D = "#sigma_{x}^{Rec} [#mum]";}
-	if (yresi){ylabel2D = "#sigma_{y}^{Rec} [#mum]";}
 	if (zresi){ylabel2D = "#sigma_{z}^{Rec} [#mum]";}
 	if (xyresi){ylabel2D = "#sigma_{xy}^{Rec} [#mum]";}
 
 	TH2F *hRecProton2D = new TH2F("hRecProton2D", "", nbins2D, xlow2D, xup2D, nbins2D, ylow2D, yup2D);
-	if (xresi){Tree->Draw(Form("%s:%s>>hRecProton2D", xProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
-	if (yresi){Tree->Draw(Form("%s:%s>>hRecProton2D", yProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
 	if (zresi){Tree->Draw(Form("%s:%s>>hRecProton2D", zProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
 	if (xyresi){Tree->Draw(Form("%s:%s>>hRecProton2D", xyProtonresi, ptProtonMC), isTrueCasc && IUProton_layers && V0RadCutMC, "GOFF");}
 
 	float xup2D2 = 1;
 
 	TH2F *hRecPion2D = new TH2F("hRecPion2D", "", nbins2D, xlow2D, xup2D2, nbins2D, ylow2D, yup2D);
-	if(xresi){Tree->Draw(Form("%s:%s>>hRecPion2D", xPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
-	if(yresi){Tree->Draw(Form("%s:%s>>hRecPion2D", yPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
 	if(zresi){Tree->Draw(Form("%s:%s>>hRecPion2D", zPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
 	if(xyresi){Tree->Draw(Form("%s:%s>>hRecPion2D", xyPionresi, ptPionMC), isTrueCasc && IUPion_layers && V0RadCutMC, "GOFF");}
 
