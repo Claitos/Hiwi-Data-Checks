@@ -205,6 +205,9 @@ void track_position_uncertainty_7hits_macro() {
 	bool zresi = true;
 	bool xyresi = false;
 
+	bool comp1cm = true;
+	bool comp25cm = false;
+
 	//-------------------------
   	// differential proton and pion residuals 
   	//-------------------------
@@ -302,10 +305,23 @@ void track_position_uncertainty_7hits_macro() {
 
 	int dimensions_proton[2] = {3, 39}; // Dimensions of the 3D array
 	int dimensions_pion[2] = {3, 45};   // Dimensions of the 3D array
-	const char *filename1 = "Data/proton_rphi_7hits.txt"; // Name of the file to read from
-	const char *filename2 = "Data/pion_rphi_7hits.txt";	  // Name of the file to read from
-	const char *filename3 = "Data/proton_z_7hits.txt";	  // Name of the file to read from
-	const char *filename4 = "Data/pion_z_7hits.txt";	  // Name of the file to read from
+	const char *filename1; // Name of the file to read from
+	const char *filename2;	  // Name of the file to read from
+	const char *filename3;	  // Name of the file to read from
+	const char *filename4;	  // Name of the file to read from
+
+	if (comp1cm){
+		filename1 = "Data/proton_rphi_7hits.txt"; // Name of the file to read from
+		filename2 = "Data/pion_rphi_7hits.txt";	  // Name of the file to read from
+		filename3 = "Data/proton_z_7hits.txt";	  // Name of the file to read from
+		filename4 = "Data/pion_z_7hits.txt";	  // Name of the file to read from
+	}
+	if (comp25cm){
+		filename1 = "Data/proton_rphi_7hits.txt"; // Name of the file to read from
+		filename2 = "Data/pion_rphi_7hits.txt";	  // Name of the file to read from
+		filename3 = "Data/proton_z_7hits.txt";	  // Name of the file to read from
+		filename4 = "Data/pion_z_7hits.txt";	  // Name of the file to read from
+	}
 
 	auto proton_rphi_data = read_in_2Ddata(filename1, dimensions_proton);
 	auto pion_rphi_data = read_in_2Ddata(filename2, dimensions_pion);
@@ -344,10 +360,23 @@ void track_position_uncertainty_7hits_macro() {
 
 
 
-	const char *filename5 = "Data/proton_rphi_4hits_1cm.txt"; // Name of the file to read from
-	const char *filename6 = "Data/pion_rphi_4hits_1cm.txt";	  // Name of the file to read from
-	const char *filename7 = "Data/proton_z_4hits_1cm.txt";	  // Name of the file to read from
-	const char *filename8 = "Data/pion_z_4hits_1cm.txt";	  // Name of the file to read from
+	const char *filename5;    // Name of the file to read from
+	const char *filename6;	  // Name of the file to read from
+	const char *filename7;	  // Name of the file to read from
+	const char *filename8;	  // Name of the file to read from
+
+	if (comp1cm){
+		filename5 = "Data/proton_rphi_4hits_1cm.txt"; // Name of the file to read from
+		filename6 = "Data/pion_rphi_4hits_1cm.txt";	  // Name of the file to read from
+		filename7 = "Data/proton_z_4hits_1cm.txt";	  // Name of the file to read from
+		filename8 = "Data/pion_z_4hits_1cm.txt";	  // Name of the file to read from
+	}
+	if (comp25cm){
+		filename5 = "Data/proton_rphi_4hits_25cm.txt"; // Name of the file to read from
+		filename6 = "Data/pion_rphi_4hits_25cm.txt";	  // Name of the file to read from
+		filename7 = "Data/proton_z_4hits_25cm.txt";	  // Name of the file to read from
+		filename8 = "Data/pion_z_4hits_25cm.txt";	  // Name of the file to read from
+	}
 
 	auto proton_rphi_data_4 = read_in_2Ddata(filename5, dimensions_proton);
 	auto pion_rphi_data_4 = read_in_2Ddata(filename6, dimensions_pion);
@@ -355,13 +384,13 @@ void track_position_uncertainty_7hits_macro() {
 	auto pion_z_data_4 = read_in_2Ddata(filename8, dimensions_pion);
 
 	TH1F *hProtonRPHI_4 = new TH1F("hProtonRPHI_4", "", 39, xlowAnalytic, xupAnalyticProton);
-	hProtonRPHI_4->SetMarkerColor(kBlue+1); 
-	hProtonRPHI_4->SetLineColor(kBlue+1);
+	hProtonRPHI_4->SetMarkerColor(kBlue); 
+	hProtonRPHI_4->SetLineColor(kBlue);
 	hProtonRPHI_4->SetMarkerStyle(20);
 	hProtonRPHI_4->SetLineWidth(2);
 	TH1F *hPionRPHI_4 = new TH1F("hPionRPHI_4", "", 45, xlowAnalytic, xupAnalyticPion);
-	hPionRPHI_4->SetMarkerColor(kBlue+1); 
-	hPionRPHI_4->SetLineColor(kBlue+1);
+	hPionRPHI_4->SetMarkerColor(kBlue); 
+	hPionRPHI_4->SetLineColor(kBlue);
 	hPionRPHI_4->SetMarkerStyle(20);
 	hPionRPHI_4->SetLineWidth(2);
 
@@ -397,7 +426,8 @@ void track_position_uncertainty_7hits_macro() {
 	canvas2D[0]->cd();
 	hProtonRPHI->Draw("P SAMES");
 	hProtonRPHI_4->Draw("P SAMES");
-	latexT[0].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1cm");
+	if (comp1cm){latexT[0].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1 cm");}
+	if (comp25cm){latexT[0].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 2.5 cm");}
 	latexT[0].DrawLatexNDC(0.40, 0.80, "#theta = 90^{#circ}");
 	latexT[0].DrawLatexNDC(0.60, 0.72, "Protons");
 	latexT[0].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
@@ -413,7 +443,8 @@ void track_position_uncertainty_7hits_macro() {
 	canvas2D[1]->cd();
 	hPionRPHI->Draw("P SAMES");
 	hPionRPHI_4->Draw("P SAMES");
-	latexT[1].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1cm");
+	if (comp1cm){latexT[1].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 1cm");}
+	if (comp25cm){latexT[1].DrawLatexNDC(0.40, 0.84, "extrapolation distance = 2.5 cm");}
 	latexT[1].DrawLatexNDC(0.40, 0.80, "#theta = 90^{#circ}");
 	latexT[1].DrawLatexNDC(0.60, 0.72, "Pions");
 	latexT[1].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
@@ -433,13 +464,25 @@ void track_position_uncertainty_7hits_macro() {
 	const char *format = "png";
 
 	if (zresi){
-	canvas2D[0]->SaveAs(Form("%s/ZErrProton7.%s", directory, format));
-	canvas2D[1]->SaveAs(Form("%s/ZErrPion7.%s", directory, format));
+		if (comp1cm){
+			canvas2D[0]->SaveAs(Form("%s/ZErrProton7.%s", directory, format));
+			canvas2D[1]->SaveAs(Form("%s/ZErrPion7.%s", directory, format));
+		}
+		if (comp25cm){
+			canvas2D[0]->SaveAs(Form("%s/ZErrProton7_25.%s", directory, format));
+			canvas2D[1]->SaveAs(Form("%s/ZErrPion7_25.%s", directory, format));
+		}
 	}
 
 	if (xyresi){
-	canvas2D[0]->SaveAs(Form("%s/XYErrProton7.%s", directory, format));
-	canvas2D[1]->SaveAs(Form("%s/XYErrPion7.%s", directory, format));
+		if (comp1cm){
+			canvas2D[0]->SaveAs(Form("%s/XYErrProton7.%s", directory, format));
+			canvas2D[1]->SaveAs(Form("%s/XYErrPion7.%s", directory, format));
+		}
+		if (comp25cm){
+			canvas2D[0]->SaveAs(Form("%s/XYErrProton7_25.%s", directory, format));
+			canvas2D[1]->SaveAs(Form("%s/XYErrPion7_25.%s", directory, format));
+		}
 	}
 
 }

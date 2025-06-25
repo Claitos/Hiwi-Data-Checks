@@ -38,7 +38,49 @@ vector<vector<vector<float>>> read_in_3Ddata(const char *filename, int dimension
 }
 
 
-void track_position_uncertainty_macro() {
+void bluePal(){
+	const Int_t NRGBs = 5;
+	const Int_t NCont = 255; 
+
+	Int_t bluePalette[NCont];
+	
+	Double_t stops[NRGBs] = {0.00, 0.25, 0.50, 0.75, 1.00};
+	Float_t alpha = 0.8; // Set transparency (0 = fully transparent, 1 = fully opaque)
+
+	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green[NRGBs] = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t blue[NRGBs]  = {0.40, 0.60, 0.80, 0.90, 1.00};
+	Int_t blue_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
+
+	for (int i = 0; i < NCont; i++){
+		bluePalette[i] = blue_palette+i;
+	}
+	gStyle->SetPalette(NCont, bluePalette);
+}
+
+
+void greenPal(){
+	const Int_t NRGBs = 5;
+	const Int_t NCont = 255; 
+
+	Int_t greenPalette[NCont];
+	
+	Double_t stops[NRGBs] = {0.00, 0.25, 0.50, 0.75, 1.00};
+	Float_t alpha = 0.8; // Set transparency (0 = fully transparent, 1 = fully opaque)
+
+	Double_t red[NRGBs]   = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Double_t green[NRGBs] = {0.40, 0.60, 0.80, 0.90, 1.00};
+	Double_t blue[NRGBs]  = {0.00, 0.00, 0.00, 0.00, 0.00};
+	Int_t green_palette = TColor::CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont, alpha);
+
+	for (int i = 0; i < NCont; i++){
+		greenPalette[i] = green_palette+i;
+	}
+	gStyle->SetPalette(NCont, greenPalette);
+}
+
+
+void track_position_uncertainty_colors_macro() {
 
 	//-------------------------
 	// Load data	
@@ -162,8 +204,8 @@ void track_position_uncertainty_macro() {
 	const char *ptProtonMC = "sqrt(pow(fPxProtonMC,2) + pow(fPyProtonMC,2))";
 	const char *ptPionMC = "sqrt(pow(fPxPionMC,2) + pow(fPyPionMC,2))";
 
-	bool zresi = true;
-	bool xyresi = false;
+	bool zresi = false;
+	bool xyresi = true;
 
 	int pseudorapidity_iter = 0; // 0 = 0 < eta < 1, 1 = 0 < eta < 0.2, 2 = 0.2 < eta < 0.4, 3 = 0.4 < eta < 0.6, 4 = 0.6 < eta < 0.8, 5 = 0.8 < eta < 1.0
 
@@ -220,6 +262,9 @@ void track_position_uncertainty_macro() {
   	// Print TH2s
   	//-------------------------
 
+	TExec *execBlue = new TExec("execBlue", "bluePal();");
+	TExec *execGreen = new TExec("execGreen", "greenPal();");
+
 	int canvasTH2sizeX = 1050;
 	int canvasTH2sizeY = 1000;
 
@@ -228,36 +273,56 @@ void track_position_uncertainty_macro() {
 
 	const char *extrapolation_radii_str[3] = {"4.2 < r_{#Lambda} < 9.2 cm", "9.2 < r_{#Lambda} < 14.2 cm", "14.2 < r_{#Lambda} < 19.2 cm"};
 
-	TCanvas *canvas2D[6];
-	for (int i = 0; i < 6; i++){
+	TCanvas *canvas2D[2];
+	for (int i = 0; i < 2; i++){
 		canvas2D[i] = new TCanvas(Form("canvas2D[%i]", i), "", canvasTH2sizeX, canvasTH2sizeY);
 		canvas2D[i]->SetTicks();
 		canvas2D[i]->SetRightMargin(0.125);
 	}
 
-	for (int i = 0; i < 3; i++){
-		canvas2D[i]->cd();
-		hRecProton2D[i]->SetMinimum(10);
-		hRecProton2D[i]->Draw("P COLZ");
-		hRecProton2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
-		hRecProton2D[i]->GetXaxis()->SetTitle(xlabel2D);
-		hRecProton2D[i]->GetYaxis()->SetTitle(ylabel2D);
-		hRecProton2D[i]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
-		hRecProton2D[i]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
-		hRecProton2D[i]->SetTitle(extrapolation_radii_str[i]);
-	}
+	int minimum = 20;
 
-	for (int i = 0; i < 3; i++){
-		canvas2D[i+3]->cd();
-		hRecPion2D[i]->SetMinimum(10);
-		hRecPion2D[i]->Draw("P COLZ");
-		hRecPion2D[i]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
-		hRecPion2D[i]->GetXaxis()->SetTitle(xlabel2D);
-		hRecPion2D[i]->GetYaxis()->SetTitle(ylabel2D);
-		hRecPion2D[i]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
-		hRecPion2D[i]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
-		hRecPion2D[i]->SetTitle(extrapolation_radii_str[i]);
-	}
+	canvas2D[0]->cd();
+	hRecProton2D[0]->Draw("AXIS");
+	hRecProton2D[0]->SetMinimum(minimum);
+	{execBlue->Draw();
+	hRecProton2D[0]->Draw("P COLZ SAMES");}
+	hRecProton2D[0]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecProton2D[0]->GetXaxis()->SetTitle(xlabel2D);
+	hRecProton2D[0]->GetYaxis()->SetTitle(ylabel2D);
+	hRecProton2D[0]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
+	hRecProton2D[0]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
+
+	hRecProton2D[2]->SetMinimum(minimum);
+	{execGreen->Draw();
+	hRecProton2D[2]->Draw("P COLZ SAMES");}
+	hRecProton2D[2]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecProton2D[2]->GetXaxis()->SetTitle(xlabel2D);
+	hRecProton2D[2]->GetYaxis()->SetTitle(ylabel2D);
+	hRecProton2D[2]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
+	hRecProton2D[2]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
+
+
+	canvas2D[1]->cd();
+	hRecPion2D[0]->Draw("AXIS");
+	hRecPion2D[0]->SetMinimum(minimum);
+	{execBlue->Draw();
+	hRecPion2D[0]->Draw("P COLZ SAMES");}
+	hRecPion2D[0]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecPion2D[0]->GetXaxis()->SetTitle(xlabel2D);
+	hRecPion2D[0]->GetYaxis()->SetTitle(ylabel2D);
+	hRecPion2D[0]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
+	hRecPion2D[0]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
+
+	hRecPion2D[2]->SetMinimum(minimum);
+	{execGreen->Draw();
+	hRecPion2D[2]->Draw("P COLZ SAMES");}
+	hRecPion2D[2]->GetYaxis()->SetRangeUser(0, 0.15*resclaing_factor);
+	hRecPion2D[2]->GetXaxis()->SetTitle(xlabel2D);
+	hRecPion2D[2]->GetYaxis()->SetTitle(ylabel2D);
+	hRecPion2D[2]->GetYaxis()->SetTitleOffset(ylabel_offsetTH2);
+	hRecPion2D[2]->GetXaxis()->SetTitleOffset(xlabel_offsetTH2);
+
 
 	//-------------------------
   	// Plot data from Notebook
@@ -286,17 +351,26 @@ void track_position_uncertainty_macro() {
 
 	for (int i = 0; i < 3; i++){
 		hProtonRPHI[i] = new TH1F(Form("hProtonRPHI[%i]", i), "", 39, xlowAnalytic, xupAnalyticProton);
-		hProtonRPHI[i]->SetMarkerColor(kRed); 
-		hProtonRPHI[i]->SetLineColor(kRed);
 		hProtonRPHI[i]->SetMarkerStyle(20);
 		hProtonRPHI[i]->SetLineWidth(2);
 
 		hPionRPHI[i] = new TH1F(Form("hPionRPHI[%i]", i), "", 45, xlowAnalytic, xupAnalyticPion);
-		hPionRPHI[i]->SetMarkerColor(kRed); 
-		hPionRPHI[i]->SetLineColor(kRed);
 		hPionRPHI[i]->SetMarkerStyle(20);
 		hPionRPHI[i]->SetLineWidth(2);
 	}
+
+	// Set colors for the histograms
+	hProtonRPHI[0]->SetMarkerColor(kAzure+10); 
+	hProtonRPHI[0]->SetLineColor(kAzure+10);
+	hProtonRPHI[2]->SetMarkerColor(kSpring+10);
+	hProtonRPHI[2]->SetLineColor(kSpring+10);
+
+	hPionRPHI[0]->SetMarkerColor(kAzure+10);
+	hPionRPHI[0]->SetLineColor(kAzure+10);
+	hPionRPHI[2]->SetMarkerColor(kSpring+10);
+	hPionRPHI[2]->SetLineColor(kSpring+10);
+
+
 
 	for (int j=0; j < 39; j++){
 		for (int k=0; k < 3; k++){
@@ -316,35 +390,59 @@ void track_position_uncertainty_macro() {
 	const char *pseudorapidity_iter_str[6] = {"0 < |#eta| < 1", "0 < |#eta| < 0.2", "0.2 < |#eta| < 0.4",
 											  "0.4 < |#eta| < 0.6", "0.6 < |#eta| < 0.8", "0.8 < |#eta| < 1.0"};
 
-	const char *extrapolation_distances_str[3] = {"extrapolation distance = 12.5 cm", "extrapolation distance = 7.5 cm", "extrapolation distance = 2.5 cm"};
+	const char *extrapolation_distances_str[3] = {"r = 12.5 cm", "r = 7.5 cm", "r = 2.5 cm"};
 
 	
-	TLatex latexT[6];
+	TLatex latexT[2];
 
-	for (int i = 0; i < 6; i++){
+	for (int i = 0; i < 2; i++){
 		latexT[i].SetTextSize(0.035);
 		latexT[i].SetTextFont(text_font);
 	}
 
-	for (int i = 0; i < 3; i++){
-		canvas2D[i]->cd();
-		hProtonRPHI[i]->Draw("P SAMES");
-		latexT[i].DrawLatexNDC(0.40, 0.84, extrapolation_distances_str[i]);
-		latexT[i].DrawLatexNDC(0.40, 0.80, "Protons with 4 hits");
-		latexT[i].DrawLatexNDC(0.40, 0.76, "#theta = 90^{#circ}");
-		latexT[i].DrawLatexNDC(0.60, 0.72, "pp #sqrt{s} = 13.6 TeV");
-		latexT[i].DrawLatexNDC(0.60, 0.68, pseudorapidity_iter_str[pseudorapidity_iter]);
-	}
 
-	for (int i = 3; i < 6; i++){
-		canvas2D[i]->cd();
-		hPionRPHI[i-3]->Draw("P SAMES");
-		latexT[i].DrawLatexNDC(0.40, 0.84, extrapolation_distances_str[i-3]);
-		latexT[i].DrawLatexNDC(0.40, 0.80, "Pions with 4 hits");
-		latexT[i].DrawLatexNDC(0.40, 0.76, "#theta = 90^{#circ}");
-		latexT[i].DrawLatexNDC(0.60, 0.72, "pp #sqrt{s} = 13.6 TeV");
-		latexT[i].DrawLatexNDC(0.60, 0.68, pseudorapidity_iter_str[pseudorapidity_iter]);
-	}
+	TH1F* h_dummyblue = new TH1F("h_dummyblue", "", 1, 0, 1);
+    h_dummyblue->SetFillColor(kBlue+1);  // Set fill color to blue
+    h_dummyblue->SetLineColor(kBlue+1);  // Optional: for border color
+    h_dummyblue->SetMarkerStyle(0);    // No marker
+
+	TH1F* h_dummygreen = new TH1F("h_dummygreen", "", 1, 0, 1);
+	h_dummygreen->SetFillColor(kGreen+1);  // Set fill color to green
+	h_dummygreen->SetLineColor(kGreen+1);  // Optional: for border color
+	h_dummygreen->SetMarkerStyle(0);    // No marker
+
+
+
+	canvas2D[0]->cd();
+	hProtonRPHI[0]->Draw("P SAMES");
+	hProtonRPHI[2]->Draw("P SAMES");
+	latexT[0].DrawLatexNDC(0.40, 0.84, "Protons with 4 hits");
+	latexT[0].DrawLatexNDC(0.40, 0.80, "#theta = 90^{#circ}");
+	latexT[0].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
+	latexT[0].DrawLatexNDC(0.60, 0.72, pseudorapidity_iter_str[pseudorapidity_iter]);
+
+	TLegend *legProton = new TLegend(0.5, 0.45, 0.8, 0.65, "", "brNDC");
+	legProton->AddEntry(hProtonRPHI[0], extrapolation_distances_str[0]);
+	legProton->AddEntry(h_dummyblue, extrapolation_radii_str[0], "F");
+	legProton->AddEntry(hProtonRPHI[2], extrapolation_distances_str[2]);
+	legProton->AddEntry(h_dummygreen, extrapolation_radii_str[2], "F");
+	
+	legProton->Draw();
+
+	canvas2D[1]->cd();
+	hPionRPHI[0]->Draw("P SAMES");
+	hPionRPHI[2]->Draw("P SAMES");
+	latexT[1].DrawLatexNDC(0.40, 0.84, "Pions with 4 hits");
+	latexT[1].DrawLatexNDC(0.40, 0.80, "#theta = 90^{#circ}");
+	latexT[1].DrawLatexNDC(0.60, 0.76, "pp #sqrt{s} = 13.6 TeV");
+	latexT[1].DrawLatexNDC(0.60, 0.72, pseudorapidity_iter_str[pseudorapidity_iter]);
+
+	TLegend *legPion = new TLegend(0.5, 0.45, 0.8, 0.65, "", "brNDC");
+	legPion->AddEntry(hPionRPHI[0], extrapolation_distances_str[0]);
+	legPion->AddEntry(h_dummyblue, extrapolation_radii_str[0], "F");
+	legPion->AddEntry(hPionRPHI[2], extrapolation_distances_str[2]);
+	legPion->AddEntry(h_dummygreen, extrapolation_radii_str[2], "F");
+	legPion->Draw();
 
 
 	//-------------------------
@@ -354,13 +452,13 @@ void track_position_uncertainty_macro() {
 	const char *format = "png";
 
 	if (zresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/ZErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/ZErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	canvas2D[0]->SaveAs(Form("%s/ZErrProtonTH2_eta%i.%s", directory, pseudorapidity_iter, format));
+	canvas2D[1]->SaveAs(Form("%s/ZErrPionTH2_eta%i.%s", directory, pseudorapidity_iter, format));
 	}
 
 	if (xyresi){
-	for (int i = 0; i < 3; i++){canvas2D[i]->SaveAs(Form("%s/XYErrProtonTH2_%i_eta%i.%s", directory, i, pseudorapidity_iter, format));}
-	for (int i = 3; i < 6; i++){canvas2D[i]->SaveAs(Form("%s/XYErrPionTH2_%i_eta%i.%s", directory, i-3, pseudorapidity_iter, format));}
+	canvas2D[0]->SaveAs(Form("%s/XYErrProtonTH2_eta%i.%s", directory, pseudorapidity_iter, format));
+	canvas2D[1]->SaveAs(Form("%s/XYErrPionTH2_eta%i.%s", directory, pseudorapidity_iter, format));
 	}
 
 }
